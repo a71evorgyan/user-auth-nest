@@ -1,7 +1,6 @@
 import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
-
 import { AppModule } from '../src/app.module';
 
 describe('AuthController (e2e)', () => {
@@ -17,8 +16,8 @@ describe('AuthController (e2e)', () => {
     await app.init();
   });
 
-  it('/auth/register (POST)', () =>
-    request(app.getHttpServer())
+  it('/auth/register (POST)', async () => {
+    const resp = request(app.getHttpServer())
       .post('/auth/register')
       .send({
         firstName: 'David',
@@ -27,7 +26,8 @@ describe('AuthController (e2e)', () => {
         email: 'david@johnson.com',
         password: 'Code_1234',
       })
-      .expect(200));
+      .expect(200);
+  });
 
   it('/auth/login (POST)', async () => {
     const response = await request(app.getHttpServer())
@@ -38,7 +38,7 @@ describe('AuthController (e2e)', () => {
       })
       .expect(200);
 
-    accessToken = response.body.token.accessToken;
+    accessToken = response.body.token;
   });
 
   it('/auth/profile (GET)', () =>
