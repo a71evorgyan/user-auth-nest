@@ -17,7 +17,7 @@ describe('AuthController (e2e)', () => {
   });
 
   it('/auth/register (POST)', async () => {
-    const resp = request(app.getHttpServer())
+    request(app.getHttpServer())
       .post('/auth/register')
       .send({
         firstName: 'David',
