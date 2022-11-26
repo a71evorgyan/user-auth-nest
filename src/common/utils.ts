@@ -1,6 +1,6 @@
 import { hash, compare } from 'bcrypt';
 
-export const generateHash = (password: string) => {
+export const generateHash = async (password: string) => {
   return hash(password, 10);
 };
 
