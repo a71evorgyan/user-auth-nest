@@ -13,6 +13,7 @@ export class RegisterUserDto {
   lastName: string;
 
   @IsString()
+  @IsNotEmpty()
   @ApiProperty()
   username: string;
 

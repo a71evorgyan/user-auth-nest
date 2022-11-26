@@ -6,8 +6,9 @@ import {
   Request,
   HttpCode,
   HttpStatus,
+  Body,
 } from '@nestjs/common';
-import { ApiCreatedResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from '../user/user.service';
 import { LoginResponse } from './entities/login.entity';
 import { RegisterResponse } from './entities/register.entity';
@@ -15,7 +16,10 @@ import { UserInfoResponse } from './entities/userInfo.entity';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/localAuth.guard';
 import { JwtAuthGuard } from './guards/jwtAuth.guard';
+import { RegisterUserDto } from './dtos/register.dto';
+import { LoginUserDto } from './dtos/login.dto';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -26,8 +30,8 @@ export class AuthController {
   @Post('register')
   @HttpCode(HttpStatus.OK)
   @ApiCreatedResponse({ type: RegisterResponse })
-  async registerUser(@Request() req) {
-    return this.userService.createUser(req.body);
+  async registerUser(@Body() userCredentials: RegisterUserDto) {
+    return this.userService.createUser(userCredentials);
   }
 
   @UseGuards(LocalAuthGuard)
@@ -35,7 +39,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiCreatedResponse({ type: LoginResponse })
   async loginUser(@Request() req) {
-    return this.authService.login(req.user);
+    return this.authService.login(req.user.username, req.user.password);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -1,10 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-
-import { USER_NOT_FOUND } from '../../common/exceptions/messages';
+import { INCORRECT_CREDENTIALS } from '../../common/exceptions/messages';
 import { validateHash } from '../../common/utils';
 import { UserService } from '../user/user.service';
-import { LoginUserDto } from './dtos/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -22,15 +20,15 @@ export class AuthService {
     return null;
   }
 
-  async login(user: LoginUserDto) {
+  async login(username: string, pass: string) {
     const userData = await this.userService.getUser({
-      username: user.username,
+      username,
     });
 
-    if (!userData) throw new UnauthorizedException(USER_NOT_FOUND);
+    if (!userData) throw new UnauthorizedException(INCORRECT_CREDENTIALS);
 
-    if (!validateHash(user.password, userData.password))
-      throw new UnauthorizedException();
+    if (!validateHash(pass, userData.password))
+      throw new UnauthorizedException(INCORRECT_CREDENTIALS);
 
     const payload = { username: userData.username, userId: userData._id };
 
