@@ -4,7 +4,7 @@ Simple User auth app with [Nest.js](https://nestjs.com/)
 
 ## Installation
 
-- Create a .env file from .env.example file and fill in the information
+- Create a `.env` file from `.env.example` file and fill in the information
 - Run the following command:
 
 ```bash
