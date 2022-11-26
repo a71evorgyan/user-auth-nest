@@ -23,3 +23,24 @@ yarn start:dev
 # production mode
 yarn start:prod
 ```
+
+## Running with docker
+
+1. copy `.env.example` file and set your env variables
+
+```bash
+#App
+PORT=4000
+
+#Mongo
+MONGODB_URL=mongodb://mongodb:27017
+MONGODB_DATABASE=users
+
+#JWT
+JWT_SECRET=key
+```
+
+2. Run
+```bash
+docker-compose up application
+```

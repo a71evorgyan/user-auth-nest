@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+
 export class RegisterResponse {
   @ApiProperty()
   _id: string;
