@@ -1,6 +1,6 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { INCORRECT_CREDENTIALS } from '../../common/exceptions/messages';
+import { UserDocument } from '../../schemas/user.schema';
 import { validateHash } from '../../common/utils';
 import { UserService } from '../user/user.service';
 
@@ -20,17 +20,11 @@ export class AuthService {
     return null;
   }
 
-  async login(username: string, pass: string) {
-    const userData = await this.userService.getUser({
-      username,
-    });
-
-    if (!userData) throw new UnauthorizedException(INCORRECT_CREDENTIALS);
-
-    if (!validateHash(pass, userData.password))
-      throw new UnauthorizedException(INCORRECT_CREDENTIALS);
-
-    const payload = { username: userData.username, userId: userData._id };
+  async login(userCredentials: UserDocument) {
+    const payload = {
+      username: userCredentials.username,
+      userId: userCredentials._id,
+    };
 
     return {
       token: this.jwtService.sign(payload),

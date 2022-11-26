@@ -37,10 +37,8 @@ export class UserService {
     if (isEmpty(userCredentials)) return;
 
     const filter = {
-      $or: [
-        userCredentials?.username && { username: userCredentials.username },
-        userCredentials?.email && { email: userCredentials.email },
-      ],
+      ...(userCredentials?.username && { username: userCredentials.username }),
+      ...(userCredentials?.email && { email: userCredentials.email }),
     };
 
     return this.userModel.findOne(filter).lean();

@@ -39,7 +39,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiCreatedResponse({ type: LoginResponse })
   async loginUser(@Request() req) {
-    return this.authService.login(req.user.username, req.user.password);
+    return this.authService.login(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
